@@ -12,14 +12,16 @@ public class NetworklManagerUI : MonoBehaviour
 
     //relay
     [SerializeField] private Button genJoinCodeBtn;
-    [SerializeField] private TextMeshProUGUI joinCodeTxt;
+    [SerializeField] private TextMeshProUGUI genJoinCodeTxt;
+    [SerializeField] private Button useJoinCodeBtn;
+    [SerializeField] private Text useJoinCodeTxt;
 
-    public delegate void SetCodeAsync(string code);
-    public SetCodeAsync JoinCodeAsync;
+    public delegate void SetCodeREsync(string code);
+    public SetCodeREsync JoinCodeREsync;
 
     private void Awake()
     {
-        JoinCodeAsync = SetJoinCode;
+        JoinCodeREsync = (string joinCode) => { genJoinCodeTxt.SetText(joinCode); };
 
         serverBtn.onClick.AddListener(() => 
         {
@@ -35,12 +37,17 @@ public class NetworklManagerUI : MonoBehaviour
         });
         genJoinCodeBtn.onClick.AddListener(() =>
         {
-            TestRelay.Singleton.CreateRelay(JoinCodeAsync);
-        });
-    }
+            TestRelay.Singleton.CreateRelay(JoinCodeREsync);
 
-    private void SetJoinCode(string joinCode)
-    {
-        joinCodeTxt.SetText(joinCode);
+            //next line will depricate in a few updates
+            genJoinCodeBtn.gameObject.SetActive(false);
+        });
+        useJoinCodeBtn.onClick.AddListener(() =>
+        {
+            TestRelay.Singleton.JoinRelay(useJoinCodeTxt.text);
+
+            //next line will depricate in a few updates
+            //useJoinCodeBtn.gameObject.SetActive(false);
+        });
     }
 }
