@@ -9,13 +9,8 @@ using UnityEngine;
 
 public class TestRelay : MonoBehaviour
 {
-    public static TestRelay Singleton;
-
     private async void Start()
     {
-        if (Singleton != null) Destroy(this);
-        Singleton = this;
-
         await UnityServices.InitializeAsync();
 
         AuthenticationService.Instance.SignedIn += () =>

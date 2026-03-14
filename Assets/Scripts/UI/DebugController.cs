@@ -17,7 +17,7 @@ public class DebugController : MonoBehaviour
     {
         CREATERELAY = new DebugCommand("CreateRelay", "Starts a Relay and generates a join code", "createrelay", () =>
         {
-            TestRelay.Singleton.CreateRelay();
+            GameManager.Singleton.RelayManager.CreateRelay();
         });
     }
 
